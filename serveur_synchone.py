@@ -57,7 +57,7 @@ while message !="kill":
         conn.send(platform.node().encode())
 
     if message == "pythonV":
-        print(f"Processor: {platform.python_version()}")
+        print(f"python version: {platform.python_version()}")
         conn.send(platform.python_version().encode())
 
 

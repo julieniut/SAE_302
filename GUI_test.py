@@ -35,31 +35,83 @@ def send():
 		if (user == "ram"):
 			print(f"Memory :{psutil.virtual_memory()}")
 			test = str(psutil.virtual_memory())
-			txt.insert(END,"\n" test)
+			txt.insert(END,"\n",test)
 
 		if (user == "ip"):
 			print(server_socket.getsockname()[0])
-			test = str(f"IP {server_socket.getsockname()[0]} ")
+			test = str(f" {server_socket.getsockname()[0]} ")
 			txt.insert(END, test )
 
 		elif (user == "cpu"):
-			txt.insert(END, "\n" + "Bot -> fine! and you")
+			print(f"Processor: {platform.processor()}")
+			test = str(f" {platform.processor()} ")
+			txt.insert(END, test)
 
-		elif (user == "fine" or user == "i am good" or user == "i am doing good"):
-			txt.insert(END, "\n" + "Bot -> Great! how can I help you.")
+		elif (user == "cpu%"):
+			print(f"{psutil.cpu_percent()}")
+			test = str(f" {psutil.cpu_percent(4)} %")
+			txt.insert(END, test)
 
-		elif (user == "thanks" or user == "thank you" or user == "now its my time"):
-			txt.insert(END, "\n" + "Bot -> My pleasure !")
+		elif (user == "os"):
+			print(f"System: {platform.platform()}")
+			test = str(f" {platform.platform()} ")
+			txt.insert(END, test)
 
-		elif (user == "what do you sell" or user == "what kinds of items are there" or user == "have you something"):
-			txt.insert(END, "\n" + "Bot -> We have coffee and tea")
+		elif (user == "name"):
+			print(f"Node Name: {platform.node}")
+			test = str(f" {platform.node()} ")
+			txt.insert(END, test)
 
-		elif (user == "tell me a joke" or user == "tell me something funny" or user == "crack a funny line"):
-			txt.insert(
-				END, "\n" + "Bot -> What did the buffalo say when his son left for college? Bison.! ")
+		elif (user == "pythonv"):
+			print(f"python version: {platform.python_version()}")
+			test = str(f" {platform.python_version()} ")
+			txt.insert(END, test)
 
-		elif (user == "goodbye" or user == "see you later" or user == "see yaa"):
-			txt.insert(END, "\n" + "Bot -> Have a nice day!")
+		elif (user == "disconnet"):
+			test = "Fermeture de la socket client"
+			txt.insert(END, test)
+
+		elif (user == "reset"):
+			reply = "le serveur redémarre"
+			txt.insert(END,reply)
+			print("Fermeture de la socket client")
+			server_socket.close()
+			print("Fermeture de la socket server")
+			server_socket = socket.socket()
+			server_socket.bind((host, port))
+			server_socket.listen(1)
+			conn, address = server_socket.accept()
+			print("Client connecter", {address})
+
+		elif (user == "mkdir"):
+			message = message.split()[1]
+			commande = os.popen(f"mkdir {message}").read()
+			reply = f"dossier {message}  créer"
+			txt.insert(END, reply)
+
+		elif user == "ping":
+			commande = os.system("Ping 8.8.8.8")
+			if commande == 0:
+				commande = "Ping effectué sans erreur"
+				txt.insert(END, commande)
+			else:
+				commande = "Ping effectué avec erreur"
+				txt.insert(END, commande)
+
+		elif (user == "connection information"):
+			hostname = socket.gethostname()
+			address = socket.gethostbyname(hostname)
+			message = str(f" \n Hostname : {hostname} \n IP: {address}")
+			txt.insert(END, message)
+
+		elif user== 'get-process':
+			process = os.popen('wmic process get description, processid').read()
+			process = f'\n {process}'
+			txt.insert(END, process)
+
+		elif user == 'help':
+			a = " \n CPU \n CPU% \n IP \n RAM \n OS \n Name \n connection information \n pythonV  \n disconnet \n reset \n Ping \n Powershell {commande} \n get-process"
+			txt.insert(END, a)
 
 		else:
 			txt.insert(END, "\n" + "Bot -> Sorry! I didn't understand that")
